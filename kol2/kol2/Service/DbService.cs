@@ -84,7 +84,7 @@ namespace kol2.Service
         public async Task<Response<object>> RemoveEventAsync(int idEvent)
         {
             var response = new Response<object>();
-            var ev = await _context.Events.Where(e => e.IdEvent == idEvent).SingleAsync();
+            var ev = await _context.Events.Where(e => e.IdEvent == idEvent).SingleOrDefaultAsync();
             if(ev == null)
             {
                 response.StatusCode = StatusCodes.Status404NotFound;
@@ -105,9 +105,12 @@ namespace kol2.Service
                 return response;
             }
 
-            await _context.EventOrganisers.Remove(await _context.EventOrganisers.Where(e => e.IdEvent == idEvent).SingleAsync()).ReloadAsync();
-            await _context.Events.Remove(await _context.Events.Where(e => e.IdEvent == idEvent).SingleAsync()).ReloadAsync();
+            //await _context.EventOrganisers.Remove(await _context.EventOrganisers.Where(e => e.IdEvent == idEvent).SingleAsync()).ReloadAsync();
+            //await _context.SaveChangesAsync();
 
+            var eventorganisers = await _context.EventOrganisers.Where(e => e.IdEvent == idEvent).ToListAsync();
+            _context.EventOrganisers.RemoveRange(eventorganisers);
+            _context.Events.Remove(ev);
             await _context.SaveChangesAsync();
 
             response.StatusCode = StatusCodes.Status200OK;

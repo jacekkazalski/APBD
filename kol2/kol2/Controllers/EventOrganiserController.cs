@@ -29,12 +29,12 @@ namespace kol2.Controllers
             return Ok(response);
         }
 
-        /*[HttpDelete] nie dziala
+        [HttpDelete]
         public async Task<IActionResult> RemoveEvent(int idEvent)
         {
             var response = await _dbService.RemoveEventAsync(idEvent);
 
             return Ok(response);
-        }*/
+        }
     }
 }

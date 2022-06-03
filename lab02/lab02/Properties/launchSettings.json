@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "lab02": {
+      "commandName": "Project",
+      "commandLineArgs": "data/dane.csv"
+    }
+  }
+}
